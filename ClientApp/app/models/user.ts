@@ -1,0 +1,15 @@
+export interface User {
+    customerId: string,
+    national_id: number,
+    staffId: number,
+    first_Name: string,
+    middle_Name: string,
+    last_Name: string,
+    mobile_Number: string,
+    birthdate: Date,
+    occupation: string,
+    email: string,
+    nationality: string,
+    address: string,
+    date: Date,
+}

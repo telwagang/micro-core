@@ -1,0 +1,29 @@
+.row-detail {
+    margin-right: 15px;
+}
+
+.thumbnail {
+    margin: 0;
+    min-height: 50px;
+    border-radius: 0;
+    display: inline-block;
+    vertical-align: top;
+    border: none;
+}
+
+.thumbnail img {
+    width: 150px;
+    height: 150px;
+}
+
+.caption.details p:last-child {
+    margin-top: 20px;
+}
+
+.caption.details p:first-child {
+    margin-top: 10px;
+}
+
+.detail-card {
+    border: 1px solid #ddd;
+}
