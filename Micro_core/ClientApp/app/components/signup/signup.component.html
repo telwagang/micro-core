@@ -1,0 +1,23 @@
+
+
+<div class="col-md-6 col-md-offset-3">
+    <h2>Sign Up</h2>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Username.valid }">
+            <label for="Username">Username</label>
+            <input type="text" class="form-control" name="Username" [(ngModel)]="model.Username" #Username="ngModel" type="name" required />
+            <div *ngIf="f.submitted && !Username.valid" class="help-block">Username is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+        </div>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">Sign Up</button>
+            <p *ngIf="loading">loading.....</p>
+            <p *ngIf="deleteduser">{{error}}</p>
+        </div>
+    </form>
+</div>
+

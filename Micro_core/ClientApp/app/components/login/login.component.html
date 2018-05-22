@@ -1,0 +1,24 @@
+
+
+<div class="col-md-6 col-md-offset-3">
+    <h2>Login</h2>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Username.valid }">
+            <label for="Username">Username</label>
+            <input type="text" class="form-control" name="Username" [(ngModel)]="model.Username" #Username="ngModel" type="name" required />
+            <div *ngIf="f.submitted && !Username.valid" class="help-block">Username is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+        </div>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">Login</button>
+            <p *ngIf="loading">loading.....</p>
+            <p *ngIf="deleteduser">{{error}}</p>
+        </div>
+    </form>
+</div>
+
+<div class='card'><div class='card-body'>        <h4 class='card-title'>Dear Batman gothom,</h4>        <p class='card-text'>Welcome Micro Systems. click the button below to finish your sing up process and verfy your email account.             <br/> this account will be further used to send notifications and remainder on from micro systems. </p>    </div><div class='card-body'><a href='http://localhost:5000/signup/23408D9A15358628' class='card-link' target='_blank'>Click here to finish Sign up</a>    </div></div>
