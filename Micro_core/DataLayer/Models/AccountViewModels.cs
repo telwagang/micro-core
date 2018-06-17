@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Micro_core.DataLayer.Models.Emuns;
 
 namespace Micro_core.Models
 {
@@ -61,6 +62,7 @@ namespace Micro_core.Models
 
     public class LoginViewModel
     {
+        public int id {get; set;}
         [Required]
         
         public string Username { get; set; }
@@ -70,6 +72,9 @@ namespace Micro_core.Models
 
         public string ApiKey {get; set; }
         public bool RememberMe { get; set; }
+        public MicroUserType Type {get; set; }
+        public int TypeId {get; set; }
+        public int CompanyId {get; set; }
     }
 
     public class RegisterStaffViewModel 

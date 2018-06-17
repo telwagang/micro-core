@@ -2,36 +2,38 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Micro_core.DataLayer.Models.Emuns;
+using Micro_core.Models.Loan;
 
-namespace Micro_core.Models
+namespace Micro_core.DataLayer.Models
 {
     public class AkibaMultipleViewModel
     {
-        [Display(Name ="Customer Name")]
-        public string  Customer_name { get; set; }
-        public IEnumerable<activityViewModel> AkibaCT { get; set; }
-        public IEnumerable<activityViewModel> AkibaDT { get; set; }
+        public string CustomerId {get; set;}
+        public string  Name { get; set; }
+        public decimal Balance { get; set; }
+        public DateTime? WitdrawDate { get; set; }     
+        public DateTime? DepositDate { get; set; }
+        public decimal? withdrawAmount { get; set; }
+        public decimal? DepositAmount {get; set;}
 
     }
     public class akibaViewModel
     {
-
-
         [Required]
-        [Display(Name = "Customer name")]
-        public string customer_name { get; set; }
+        public string customerId { get; set; }
         [Required]
-        [Display(Name = "Account Number")]
+        public int staffId { get; set; }
+        [Required]
         public string AkibaId { get; set; }
         [Required]
-        [Display(Name = "Select One ")]
-        public string ctORdt { get; set; }
+       
+        public MicroAkibaType ctORdt { get; set; }
 
-        [Display(Name = "Amount")]
         public int Amount { get; set; }
-
-
-
+        
+        public DateTime? createdDate {get; set;}
     }
     public class hisaViewModel
     {
@@ -48,15 +50,11 @@ namespace Micro_core.Models
     }
     public class paymentViewModel
     {
-        [Display(Name = "Customer Name")]
-        public string customer_name { get; set; }
-
-        [Display(Name = "Loan ID")]
-        public string loanId { get; set; }
-        public int staffId { get; set;  }
-
-        [Display(Name = "Amount ")]
-        public int amountPaid { get; set; }
+        public string CustomerId { get; set; }
+        public string LoanId { get; set; }
+        public int StaffId { get; set;  }
+        public decimal AmountPaid { get; set; }
+        public DateTime Date { get; set; }
 
     }
 
@@ -112,12 +110,12 @@ namespace Micro_core.Models
         public int NDA { get; set; }
     }
 
-    public class interest
+    [NotMapped]
+    public class interestViewModel: Interest
     {
-        [Display(Name = "Duration in months")]
-        public int duration { get; set; }
-        [Display(Name = "Rate in %")]
-        public double rate { get; set; }
+       public int loanLimitId { get; set; }
+       public decimal LimitAmount {get;set;}
+
     }
     public class hisa
     {

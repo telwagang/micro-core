@@ -1,3 +1,5 @@
+
+import { SystemDataService } from './services/systemData.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
@@ -25,6 +27,10 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthguardGuard } from './guard/authguard.guard';
 import { SignUpComponent } from './components/signup/signup.component';
 import { LoginService } from './components/login/login.service';
+import { CheckToken } from './guard/chechToken.guard';
+import { LoanHomeComponent } from './components/loan/home/loanhome.component';
+import { ApplyloanComponent } from './components/loan/applyloan/applyloan.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -44,7 +50,9 @@ import { LoginService } from './components/login/login.service';
         DepositComponent,
         HomeComponent,
         LoginComponent,
-        SignUpComponent
+        SignUpComponent,
+        LoanHomeComponent,
+        ApplyloanComponent
     ],
     imports: [
         CommonModule,
@@ -55,12 +63,12 @@ import { LoginService } from './components/login/login.service';
             { path: '', redirectTo: 'login', pathMatch: 'full' },
             {path: 'login', component: LoginComponent},
             {path: 'signup/:key', component: SignUpComponent,canActivate: [AuthguardGuard] },
-            { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
-            { path: 'user', component: UserComponent },
+            { path: 'home', component: HomeComponent,canActivate: [CheckToken] },
+            { path: 'counter', component: CounterComponent,canActivate: [CheckToken] },
+            { path: 'fetch-data', component: FetchDataComponent,canActivate: [CheckToken] },
+            { path: 'user', component: UserComponent ,canActivate: [CheckToken]},
             {
-                path: 'set-up', component: SetUpComponent,
+                path: 'set-up', component: SetUpComponent, canActivate: [CheckToken], 
                 children: [{
                     path: 'company',
                     component: CompanyComponent
@@ -75,21 +83,28 @@ import { LoginService } from './components/login/login.service';
                 }]
             },
             {
-                path: 'akiba', component: AkibaComponent
+                path: 'akiba', component: AkibaComponent, canActivate: [CheckToken]
                 , children: [{
                     path: 'deposit'
                     , component: DepositComponent
                 }]
             },
             {
-                path: 'loan', component: LoanComponent
+                path: 'loan', component: LoanComponent,canActivate: [CheckToken]
+                ,children : [{
+                    path: 'home',
+                    component: LoanHomeComponent,
+                },
+                {path: 'apply', 
+            component: ApplyloanComponent}
+            ]
             }, {
-                path: 'reports', component: ReportComponent
+                path: 'reports', component: ReportComponent,canActivate: [CheckToken]
             },
             { path: '**', redirectTo: 'home' }
         ])
     ],
-    providers: [AuthguardGuard ,AppHttpService, LoginService ]
+    providers: [AuthguardGuard,CheckToken, SystemDataService,AppHttpService, LoginService ]
 })
 export class AppModuleShared {
 }

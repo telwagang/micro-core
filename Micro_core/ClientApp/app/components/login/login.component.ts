@@ -1,8 +1,10 @@
+import { ActiveUser } from './../../models/ActiveUser';
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserType } from '../../enum/user-type.enum';
+import { SystemDataService } from '../../services/systemData.service';
 
 
 @Component({
@@ -32,10 +34,10 @@ export class LoginComponent implements OnInit {
     console.log(this.model);
     this.ds.signInWithEmailAndPassword(this.model).subscribe
     (user=>{
-      console.log(user);
-    if(typeof user == 'number')
+      var activeUser = user as ActiveUser; 
+    if(activeUser != null)
     {
-      this.getuserdetails(user)
+      this.getuserdetails(activeUser)
       this.loading = false;
 
     }else{
@@ -47,22 +49,24 @@ export class LoginComponent implements OnInit {
   
   }
 
-  getuserdetails(value:any){
+  getuserdetails(value:ActiveUser){
       console.log(value);
-      var usertype = value.usertype as UserType;
-      console.log(usertype);
-      debugger;
+      
       var url:any = '';
-
-      switch (+usertype) {
+      
+      SystemDataService.prototype.setToken(value.apiKey);
+      SystemDataService.prototype.setCompany(value.companyId)
+      SystemDataService.prototype.setActiveUser(value);
+      SystemDataService.prototype.setStaff(value.typeId);
+      switch (+value.type) {
         case UserType.Admin:
         url = 'home';
         break;
         case UserType.Staff:
-        url = 'driver/daily/';
+        url = 'home';
         break;
         case UserType.Customer:
-        url = 'tech';
+        url = 'home';
         break;
       }
       console.log(url);

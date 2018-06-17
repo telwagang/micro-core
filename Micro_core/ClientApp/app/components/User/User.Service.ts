@@ -28,7 +28,7 @@ export class UserService {
       result => {
         const value = result as User;
         const isnot = value == null;
-
+        console.log(result);
         let questions: QuestionBase<any>[] = [
 
           new Textbox({

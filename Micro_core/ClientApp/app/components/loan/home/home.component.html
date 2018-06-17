@@ -1,0 +1,85 @@
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Overdue
+        <span class="badge">3</span>
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Coming up
+        <span class="badge">3</span>
+      </a>
+    </li>
+
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <div class="table-responsive">
+        <table class="table table-hover">
+
+          <thead>
+            <tr>
+              <th>Loan Id</th>
+              <th>Customer Name</th>
+              <th>Amount</th>
+              <th>Due Date</th>
+              <th>Pay</th>
+              <th>View Summary</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of overdue">
+              <td>{{ user.loadId }}</td>
+              <td>{{ user.customerName }}</td>
+              <td>{{ user.amount }}</td>
+              <td>{{ user.dueDate }}</td>
+              <td>
+                <a class="btn btn-info btn-xs" data-toggle="modal" data-target="#addUser" (click)="PayLoan(user)" role="button">Pay</a>
+              </td>
+              <td>
+                <a class="btn btn-info btn-xs" (click)="Account(user.customerId)" role="button">View</a>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="profile">
+       <div class="table-responsive">
+        <table class="table table-hover">
+
+          <thead>
+            <tr>
+              <th>Loan Id</th>
+              <th>Customer Name</th>
+              <th>Amount</th>
+              <th>Due Date</th>
+              <th>Pay</th>
+              <th>View Summary</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of pending">
+              <td>{{ user.loadId }}</td>
+              <td>{{ user.customerName }}</td>
+              <td>{{ user.amount }}</td>
+              <td>{{ user.dueDate }}</td>
+              <td>
+                <a class="btn btn-info btn-xs" data-toggle="modal" data-target="#addUser" (click)="PayLoan(user)" role="button">Pay</a>
+              </td>
+              <td>
+                <a class="btn btn-info btn-xs" (click)="Account(user.customerId)" role="button">View</a>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div>

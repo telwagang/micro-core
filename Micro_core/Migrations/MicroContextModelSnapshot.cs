@@ -105,6 +105,40 @@ namespace Microcore.Migrations
                     b.ToTable("Email");
                 });
 
+            modelBuilder.Entity("Micro_core.DataLayer.Models.Management.Staff", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("First_Name");
+
+                    b.Property<string>("Last_Name");
+
+                    b.Property<string>("Middle_Name");
+
+                    b.Property<string>("Mobile_Number");
+
+                    b.Property<string>("Position");
+
+                    b.Property<string>("UserID");
+
+                    b.Property<DateTime>("birthdate");
+
+                    b.Property<string>("email");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Staff");
+                });
+
             modelBuilder.Entity("Micro_core.Models.Company", b =>
                 {
                     b.Property<int>("CompanyId")
@@ -128,7 +162,11 @@ namespace Microcore.Migrations
 
                     b.Property<int>("Tin_no");
 
+                    b.Property<int?>("loanLimitId");
+
                     b.HasKey("CompanyId");
+
+                    b.HasIndex("loanLimitId");
 
                     b.ToTable("Company");
                 });
@@ -248,7 +286,7 @@ namespace Microcore.Migrations
 
                     b.Property<int>("Duration");
 
-                    b.Property<double>("Rate");
+                    b.Property<decimal>("Rate");
 
                     b.Property<int>("StaffId");
 
@@ -266,7 +304,9 @@ namespace Microcore.Migrations
                     b.Property<string>("LoanId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Amount");
+                    b.Property<int>("ActionType");
+
+                    b.Property<decimal>("Amount");
 
                     b.Property<string>("CustomerId");
 
@@ -276,9 +316,13 @@ namespace Microcore.Migrations
 
                     b.Property<int>("Duration");
 
-                    b.Property<int>("ReturnAmount");
+                    b.Property<string>("ParentId");
+
+                    b.Property<decimal>("ReturnAmount");
 
                     b.Property<int>("StaffId");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("LoanId");
 
@@ -287,38 +331,6 @@ namespace Microcore.Migrations
                     b.HasIndex("StaffId");
 
                     b.ToTable("Loan");
-                });
-
-            modelBuilder.Entity("Micro_core.Models.Loan.LoanApplicantion", b =>
-                {
-                    b.Property<string>("LoanId");
-
-                    b.Property<bool>("Approved");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<int>("Id");
-
-                    b.Property<int>("StaffId");
-
-                    b.HasKey("LoanId");
-
-                    b.ToTable("LoanApplication");
-                });
-
-            modelBuilder.Entity("Micro_core.Models.Loan.LoanBalance", b =>
-                {
-                    b.Property<string>("LoanId");
-
-                    b.Property<int>("Balance");
-
-                    b.Property<bool>("Deleted");
-
-                    b.HasKey("LoanId");
-
-                    b.ToTable("loanBalance");
                 });
 
             modelBuilder.Entity("Micro_core.Models.Loan.LoanDone", b =>
@@ -336,13 +348,18 @@ namespace Microcore.Migrations
 
             modelBuilder.Entity("Micro_core.Models.Loan.LoanLimit", b =>
                 {
-                    b.Property<int>("CompanyId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<int>("LimitAmount");
+                    b.Property<int>("InterestId");
 
-                    b.HasKey("CompanyId");
+                    b.Property<decimal>("LimitAmount");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InterestId");
 
                     b.ToTable("LoanLimit");
                 });
@@ -356,9 +373,11 @@ namespace Microcore.Migrations
 
                     b.Property<string>("LoanId");
 
-                    b.Property<int>("Monthly");
+                    b.Property<decimal>("Monthly");
 
                     b.Property<DateTime>("Nextpayday");
+
+                    b.Property<bool>("paid");
 
                     b.HasKey("ID");
 
@@ -388,7 +407,7 @@ namespace Microcore.Migrations
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("LoanPayment");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("Micro_core.Models.Management.MemberAddmission", b =>
@@ -427,50 +446,31 @@ namespace Microcore.Migrations
                     b.ToTable("Reference");
                 });
 
-            modelBuilder.Entity("Micro_core.Models.Staff", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CompanyId");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<string>("First_Name");
-
-                    b.Property<string>("Last_Name");
-
-                    b.Property<string>("Middle_Name");
-
-                    b.Property<string>("Mobile_Number");
-
-                    b.Property<string>("Position");
-
-                    b.Property<string>("UserID");
-
-                    b.Property<DateTime>("birthdate");
-
-                    b.Property<string>("email");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("Staff");
-                });
-
             modelBuilder.Entity("Micro_core.DataLayer.Models.akiba.AkibaAccount", b =>
                 {
                     b.HasOne("Micro_core.Models.Customer", "Customer")
                         .WithMany("Akiba")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Micro_core.Models.Staff", "Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff", "Staff")
                         .WithMany("Akiba")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Micro_core.DataLayer.Models.Management.Staff", b =>
+                {
+                    b.HasOne("Micro_core.Models.Company", "Company")
+                        .WithMany("Staff")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Micro_core.Models.Company", b =>
+                {
+                    b.HasOne("Micro_core.Models.Loan.LoanLimit", "loanLimit")
+                        .WithMany()
+                        .HasForeignKey("loanLimitId");
                 });
 
             modelBuilder.Entity("Micro_core.Models.Customer", b =>
@@ -479,7 +479,7 @@ namespace Microcore.Migrations
                         .WithMany("Customer")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("Micro_core.Models.Staff", "Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff", "Staff")
                         .WithMany("Customer")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -487,7 +487,7 @@ namespace Microcore.Migrations
 
             modelBuilder.Entity("Micro_core.Models.Hisa.HisaHistory", b =>
                 {
-                    b.HasOne("Micro_core.Models.Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff")
                         .WithMany("HisaHistory")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -519,7 +519,7 @@ namespace Microcore.Migrations
                         .WithMany("Interest")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("Micro_core.Models.Staff", "Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff", "Staff")
                         .WithMany("Interest")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -531,25 +531,9 @@ namespace Microcore.Migrations
                         .WithMany("loan")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Micro_core.Models.Staff", "Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff", "Staff")
                         .WithMany("loan")
                         .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Micro_core.Models.Loan.LoanApplicantion", b =>
-                {
-                    b.HasOne("Micro_core.Models.Loan.Loan", "Loan")
-                        .WithOne("LoanApplication")
-                        .HasForeignKey("Micro_core.Models.Loan.LoanApplicantion", "LoanId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Micro_core.Models.Loan.LoanBalance", b =>
-                {
-                    b.HasOne("Micro_core.Models.Loan.Loan", "Loan")
-                        .WithOne("LoanBalance")
-                        .HasForeignKey("Micro_core.Models.Loan.LoanBalance", "LoanId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -563,9 +547,9 @@ namespace Microcore.Migrations
 
             modelBuilder.Entity("Micro_core.Models.Loan.LoanLimit", b =>
                 {
-                    b.HasOne("Micro_core.Models.Company", "Company")
-                        .WithOne("loanLimit")
-                        .HasForeignKey("Micro_core.Models.Loan.LoanLimit", "CompanyId")
+                    b.HasOne("Micro_core.Models.Loan.Interest", "Interst")
+                        .WithMany()
+                        .HasForeignKey("InterestId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -579,10 +563,10 @@ namespace Microcore.Migrations
             modelBuilder.Entity("Micro_core.Models.Loan.Payment", b =>
                 {
                     b.HasOne("Micro_core.Models.Loan.Loan", "Loan")
-                        .WithMany("payments")
+                        .WithMany()
                         .HasForeignKey("LoanId");
 
-                    b.HasOne("Micro_core.Models.Staff", "Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff", "Staff")
                         .WithMany("Payment")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -601,17 +585,9 @@ namespace Microcore.Migrations
                         .WithMany("Reference")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Micro_core.Models.Staff")
+                    b.HasOne("Micro_core.DataLayer.Models.Management.Staff")
                         .WithMany("reference")
                         .HasForeignKey("StaffID");
-                });
-
-            modelBuilder.Entity("Micro_core.Models.Staff", b =>
-                {
-                    b.HasOne("Micro_core.Models.Company", "Company")
-                        .WithMany("Staff")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

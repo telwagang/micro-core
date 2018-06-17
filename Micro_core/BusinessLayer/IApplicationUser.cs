@@ -6,11 +6,12 @@ using Micro_core.DataLayer.Attributes;
 using Micro_core.DataLayer.Models.Auth;
 using Micro_core.DataLayer.Models.Emuns;
 using Micro_core.DataLayer.Models.Management;
+using Micro_core.IBusinessLayer;
 using Micro_core.Models;
 
 namespace Micro_core.BusinessLayer
 {
-    public class IApplicationUser
+    public class IApplicationUser : IUserLayer
     {
         
         private MicroUser _user = null;
@@ -29,7 +30,7 @@ namespace Micro_core.BusinessLayer
             _user = MicroUser.GetByUsername(user.Username);
 
 
-            if (_user == null || !BCrypt.Net.BCrypt.Verify(user.Password, _user.Password))
+            if (_user == null || _user.Password != user.Password)//!BCrypt.Net.BCrypt.Verify(user.Password, _user.Password))
             {
                 throw new MicroException(HttpStatusCode.NoContent, "In Correct Username and Password");
             }
@@ -92,13 +93,23 @@ namespace Micro_core.BusinessLayer
 
                 return _user.AccessToken;
         }
+
+        public bool ValidMembershipPeriod(string customerId)
+        {
+           var customer = Customer.GetById(customerId); 
+           if(customer == null) throw new MicroException("Users does not exsit");
+
+           return customer.Date.AddMonths(3).Date < DateTime.Now.Date;
+        }
+
         private void UpdateLastLogin()
         {
             _user.LastLogin = DateTime.UtcNow;
             _user.LockOut = false;
 
         }
-
+        
+        
 
     }
 }

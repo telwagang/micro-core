@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Micro_core.DataLayer.Models.Emuns;
 
 namespace Micro_core.Models.Loan
 {
@@ -10,8 +11,7 @@ namespace Micro_core.Models.Loan
         public int Id {get; set ;}
         [Key, ForeignKey("Loan")]
         public string LoanId { get; set; }
-        public int StaffId  { get; set; }
-        public bool Approved { get; set; }
+        public MicroLoanStatus Status { get; set; }
         public DateTime Date { get; set; }
        
         [DefaultValue(false)]

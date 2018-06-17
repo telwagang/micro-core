@@ -7,6 +7,7 @@ using System.Web;
 using Micro_core.DataLayer;
 using Micro_core.DataLayer.Models.Management;
 using Microsoft.EntityFrameworkCore;
+using Micro_core.DataLayer.Models;
 
 namespace Micro_core.Models.Loan
 {
@@ -16,7 +17,7 @@ namespace Micro_core.Models.Loan
         public int? CompanyId { get; set; }
         public int StaffId { get; set; }
         public int Duration { get; set; }
-        public double Rate { get; set; }
+        public decimal Rate { get; set; }
         [DefaultValue(false)]
         public bool Deleted { get; set; }
 
@@ -44,22 +45,66 @@ namespace Micro_core.Models.Loan
                     ctx.Entry(this).State = EntityState.Modified;
                 }
                 ctx.SaveChanges();
+
+
             }
         }
+        public void addLoanLimit(LoanLimit lm)
+        {
+            using (var ctx = new MicroContext())
+            {
+                var old = ctx.LoanLimit.
+                AsNoTracking().
+                FirstOrDefault(x => x.Id == lm.Id);
 
+                lm.InterestId = ID;
+                if (old == null)
+                {
+
+                    ctx.LoanLimit.Add(lm);
+                }
+                else
+                {
+                    ctx.Entry(lm).State = EntityState.Modified;
+                }
+                ctx.SaveChanges();
+
+
+            }
+        }
         public static Interest GetById(int id)
         {
             using (var ctx = new MicroContext())
             {
-                return ctx.Interest.FirstOrDefault(x=> x.ID == id & !x.Deleted); 
+                return ctx.Interest.FirstOrDefault(x => x.ID == id & !x.Deleted);
             }
         }
 
-        internal static List<Interest>  All()
+
+        public LoanLimit GetLoanLimit()
         {
             using (var ctx = new MicroContext())
             {
-                return ctx.Interest.Where(x=>  !x.Deleted).ToList(); 
+                return ctx.LoanLimit.FirstOrDefault(x => x.InterestId == ID && !x.Deleted);
+            }
+        }
+        internal static List<interestViewModel> All()
+        {
+            using (var ctx = new MicroContext())
+            {
+                return (from i in ctx.Interest
+                        join l in ctx.LoanLimit on i.ID equals l.InterestId
+                        into lm
+                        from lmdefualt in lm.DefaultIfEmpty()
+                        select new interestViewModel
+                        {
+                            CompanyId = i.CompanyId,
+                            ID = i.ID,
+                            Rate = i.Rate,
+                            Duration = i.Duration,
+                            loanLimitId = lmdefualt.Id ,
+                            LimitAmount = lmdefualt.LimitAmount
+                        }).ToList();
             }
         }
     }

@@ -4,12 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Micro_core.DataLayer.Models.Emuns;
+using Micro_core.DataLayer.Models.Management;
+using Micro_core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Micro_core.DataLayer.Models.Auth
 {
     public class MicroUser
     {
+        
+        public MicroUser()
+        {
+        }
         [Key]
         public int Id { get; set; }
         public string Username { get; set; }
@@ -55,6 +61,20 @@ namespace Micro_core.DataLayer.Models.Auth
                 }
                 ctx.SaveChanges();
             }
+        }
+
+        public LoginViewModel ReturnToClient()
+        {
+            var staff = Staff.GetByApiKey(Id.ToString());
+            return new LoginViewModel
+            {
+                Username = Username,
+                id = Id,
+                ApiKey = AccessToken,
+                Type = Type,
+                TypeId =  staff?.ID ?? 0,
+                CompanyId =  staff?.CompanyId ?? 0
+            };
         }
 
         public static MicroUser GetByUsername(string username)

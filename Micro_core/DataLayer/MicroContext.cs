@@ -54,14 +54,11 @@ namespace Micro_core.DataLayer
         public DbSet<MicroEmail> Email {get; set;}
 
         public DbSet<Loan> Loan { get; set; }
-        public DbSet<LoanBalance> loanBalance { get; set; }
-        public DbSet<LoanApplicantion> LoanApplication { get; set; }
+        
         public DbSet<LoanLimit> LoanLimit { get; set; }
         public DbSet<LoanStatus> LoanStatus { get; set; }
-        public DbSet<Payment> LoanPayment { get; set; }
         public DbSet<Interest> Interest { get; set; }
-        public DbSet<LoanDone> LoanDone { get; set; }
-
+        
 
         public DbSet<MainHisa> Mainhisa { get; set; }
         public DbSet<HisaHistory> HisaHistory { get; set; }

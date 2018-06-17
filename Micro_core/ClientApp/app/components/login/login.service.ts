@@ -1,7 +1,7 @@
+import { SystemDataService } from './../../services/systemData.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppHttpService } from '../../services/apphttp.service';
-import { SystemDataService } from '../../services/systemData.service';
 
 @Injectable()
 export class LoginService {
@@ -9,7 +9,8 @@ export class LoginService {
   
   
   private url : string; 
-  constructor(private db: AppHttpService) { 
+  constructor(private db: AppHttpService,
+  private systdata: SystemDataService) { 
    this.url = "Auth/";
   }
 
@@ -27,7 +28,9 @@ export class LoginService {
     return this.db.post(`${this.url}signup`, arg1); 
   }
   CheckToken(){
-    var token = SystemDataService.prototype.getToken();
+    var token = this.systdata.getToken() || ' '; 
+    if(token == ' ') return new Observable<boolean>(b=> b.next(false));
+
     return this.db.get(`${this.url}VerifyToken/${token}`);
   }
 }

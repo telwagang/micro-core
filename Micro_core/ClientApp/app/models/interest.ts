@@ -3,5 +3,7 @@ export interface Interest{
     companyId:number,
     staffId:number,
     duration:number,
-    rate:number
+    rate:number,
+    loanlimit:number,
+    limitAmount:number
 }

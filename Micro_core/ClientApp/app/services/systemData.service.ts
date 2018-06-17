@@ -1,10 +1,15 @@
-import { Injectable,Inject } from '@angular/core';
+import { ActiveUser } from './../models/ActiveUser';
+import { Injectable,Inject, PLATFORM_ID } from '@angular/core';
 import { AkibaType } from '../enum/akibaType.enum';
 import { Akiba } from '../models/akiba';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class SystemDataService {
 
+  
+  
+ 
     constructor(){
 
     }
@@ -17,14 +22,23 @@ export class SystemDataService {
        return this.get("company");
     }
     public getStaff() : string{
-        this.set("staff", 1);
+       
         return this.get("staff");
     }
+    setStaff(arg0: any): any {
+        this.set("staff", arg0);
+      }
     public setTranscationType(value: AkibaType){
         this.set("transcationType", value);
     }
     public setToken(value:string){
         this.set("Token", value); 
+    }
+    public setTempeId(id:any){
+        this.set("tempId", id); 
+    }
+    public getTempeId(){
+        return this.get("tempId"); 
     }
     public getToken(){
         return this.get("Token"); 
@@ -33,6 +47,12 @@ export class SystemDataService {
         return parseInt(this.get("transcationType")) as AkibaType; 
     }
 
+    public setActiveUser(arg0: any): any {
+        this.set("activeUser", arg0);
+      }
+    public getActiveUser(): ActiveUser{
+        return this.get("activeUser") as ActiveUser; 
+    }
     public setCustomer(value:string){
         this.set("customer", value); 
     }
@@ -40,9 +60,12 @@ export class SystemDataService {
         return this.get("customer"); 
     }
    private set(key:string, value:any){
+       
         localStorage.setItem(key, value); 
+       
     }
-   private get(key:string) :string{
-        return localStorage.getItem(key) || '';
+   private get(key:string) :any{
+        return  localStorage.getItem(key) || '';
     }
 }
+

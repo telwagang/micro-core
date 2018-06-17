@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBase } from '../form/formmodel/FormBase';
 import { SystemDataService } from '../../services/systemData.service';
 import { Interest } from '../../models/interest';
@@ -12,13 +12,17 @@ import { InterestService } from './interest.service';
 })
 export class InterestComponent implements OnInit {
 
+ 
   error: boolean;
   questions: any;
   messege: string;
   staffs: Interest[] = [];
+  reload = false; 
+ loanLimit:any; 
 
   constructor(private ss: InterestService,
-    private sysdata: SystemDataService
+    private sysdata: SystemDataService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.refreshTable();
     this.EditStaff(0);
@@ -64,6 +68,31 @@ refreshTable(){
       .subscribe(result => {
         this.refreshTable();
       });
+
+  }
+  SaveLoanLimit(value:any){
+    let lm = this.sysdata.getTempeId() as Interest; 
+    var staff = JSON.parse(value) as Interest;
+    lm.limitAmount = staff.limitAmount;
+
+   this.ss.SetInterest(JSON.stringify(lm))
+    .subscribe(result => {
+      this.refreshTable();
+    });
+  }
+
+  AddLoanLimit(id:Interest){
+    try {
+      if(id == null) return; 
+      this.reload = false; 
+      this.sysdata.setTempeId(id);
+      this.loanLimit = this.ss.GetLoanlimit(id);
+        this.cdRef.detectChanges();
+        this.reload = true;
+       
+    } catch (error) {
+      this.sysdata.setTempeId(""); 
+    }
 
   }
 

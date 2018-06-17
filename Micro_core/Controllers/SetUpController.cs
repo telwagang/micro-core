@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Micro_core.DataLayer.Models;
 using Micro_core.DataLayer.Models.Management;
 using Micro_core.Models;
 using Micro_core.Models.Loan;
@@ -8,14 +9,15 @@ namespace Micro_core.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class SetUpController: Controller
+    public class SetUpController : Controller
     {
         [HttpPost("[action]")]
         public IActionResult SetCompany([FromBody] Company company)
         {
-            if(company == null){
+            if (company == null)
+            {
                 return BadRequest(ModelState.ValidationState);
-            } 
+            }
             company.save();
 
             return Ok(company);
@@ -23,59 +25,80 @@ namespace Micro_core.Controllers
 
         [HttpGet("[action]")]
         [Produces("application/json")]
-        public IActionResult GetCompany() {
+        public IActionResult GetCompany()
+        {
             return Ok(Company.GetCompany());
-         }
-        
+        }
+
         [HttpGet("[action]")]
         [Produces("application/json")]
-         public IActionResult GetStaff() { 
-             return Ok(Staff.All());
-         }
+        public IActionResult GetStaff()
+        {
+            return Ok(Staff.All());
+        }
 
         [HttpGet("[action]/{id}")]
         [Produces("application/json")]
-         public IActionResult GetStaff(int id){
-             
-             return Ok(Staff.GetById(id));
-         }
+        public IActionResult GetStaff(int id)
+        {
 
-          [HttpPost("[action]")]
+            return Ok(Staff.GetById(id));
+        }
+
+        [HttpPost("[action]")]
         public IActionResult SetStaff([FromBody] Staff staff)
         {
-            if(staff == null){
+            if (staff == null)
+            {
                 return BadRequest();
-            } 
-           
+            }
+
             staff.save();
-            
-            MicroEmail.SendToNewUserSignUp(HttpContext, staff.ID); 
+
+            MicroEmail.SendToNewUserSignUp(HttpContext, staff.ID);
 
             return Ok(staff);
         }
 
         [HttpGet("[action]")]
         [Produces("application/json")]
-         public IActionResult GetInterest() { 
-             return Ok(Interest.All());
-         }
+        public IActionResult GetInterest()
+        {
+            return Ok(Interest.All());
+        }
 
         [HttpGet("[action]/{id}")]
         [Produces("application/json")]
-         public IActionResult GetInterest(int id){
-             
-             return Ok(Interest.GetById(id));
-         }
-
-          [HttpPost("[action]")]
-        public IActionResult SetInterest([FromBody] Interest inter)
+        public IActionResult GetInterest(int id)
         {
-            if(inter == null){
+
+            return Ok(Interest.GetById(id));
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult SetInterest([FromBody] interestViewModel inter)
+        {
+            if (inter == null)
+            {
                 return BadRequest();
-            } 
+            }
             inter.save();
+
+            if (inter.loanLimitId != 0)
+            {
+                var lm = LoanLimit.GetById(inter.loanLimitId) ??
+                new LoanLimit
+                {
+                    InterestId = inter.ID
+                };
+
+                lm.LimitAmount = inter.LimitAmount;
+
+                inter.addLoanLimit(lm);
+            }
 
             return Ok(inter);
         }
+
     }
 }

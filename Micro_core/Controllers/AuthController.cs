@@ -23,8 +23,9 @@ namespace Micro_core.Controllers
             {
                 var _user = new IApplicationUser().signInWithEmailAndPassword(user);
                 if (_user == null) return NotFound();
-
-                return Ok(_user.Type);
+                
+               
+                return Ok(_user.ReturnToClient());
             }
             catch (Exception e)
             {

@@ -110,4 +110,21 @@ namespace Micro_core.Models
         public int staffId { get; set; }
         public int companyid { get; set; } 
     }
+    public class LoanPending{
+        public string LoanId { get; set; }
+        public string customerName { get; set; }
+        public string Amount { get; set; }
+        public DateTime DueDate {get; set;}
+        public string CustomerId { get; set; }
+        
+    }
+
+    public class LoanApplication{
+        public int staffId { get; set; }
+        public string customerid { get; set; }
+        public int hisa {get; set;}
+        public decimal Amount {get; set;}
+        public decimal RepayAmount {get; set;}
+        public DateTime date {get; set;}
+    }
 }

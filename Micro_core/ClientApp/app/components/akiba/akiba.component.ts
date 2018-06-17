@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { AkibaService } from './akiba.service';
 import { Akiba } from '../../models/akiba';
 import { SystemDataService } from '../../services/systemData.service';
 import { AkibaView } from '../../models/akibaView';
 import "../../support/functions.js";
-
-declare var BoostrapFunctions:any; 
-declare var webGlObject: any;
+import { ThrowStmt } from '@angular/compiler';
+import { AkibaType } from '../../enum/akibaType.enum';
 
 @Component({
   selector: 'app-akiba',
@@ -17,21 +16,30 @@ declare var webGlObject: any;
 export class AkibaComponent implements OnInit {
 
   questions: any;
-  messeage:string;
+  messeage = '';
+  akibaHistory:any; 
+  reload= false; 
+
 
   constructor(private as: AkibaService,
-  private sysdata:SystemDataService) { 
+  private sysdata:SystemDataService,
+  private cdRef: ChangeDetectorRef,
+  private render: Renderer2) { 
   
   }
 
   ngOnInit() {
-    
+    this.loadHistory();
+  }
+  
+  loadHistory(){
+    this.as.getHistory().subscribe(x=>{
+      this.akibaHistory = x; 
+    })
   }
 
   LoadDeposit(){
-    this.sysdata.setCustomer("sde21132");//view.customer.customerId); 
-   BoostrapFunctions.triggerModal();
-    //$("div");
+    this.sysdata.setCustomer("sde21132");
     this.BuilderForm();
   }
   
@@ -46,16 +54,43 @@ export class AkibaComponent implements OnInit {
      var type = this.sysdata.getTranscationType();
 
      transtion.staffId = staffid;
-     transtion.transcationType = type;
+     transtion.ctORdt = type;
 
      if(!transtion.customerId){
        this.messeage = "Fill in customer Id";
        return;
      }
-
+      
      console.log(transtion); 
-
+    
+     this.as.saveAkiba(transtion)
+     .subscribe(x=> {
+       if(x != '') { 
+        this.messeage = x;  
+        console.log(x);
+      } 
+     })
    }
 
+   Withdraw(id:any){
+     if(id == '') return; 
+    this.reload = false; 
+    this.sysdata.setCustomer(id); 
+    this.sysdata.setTranscationType(AkibaType.Withdraw);
+    
+    this.BuilderForm();
+    this.cdRef.detectChanges();
+    this.reload = true; 
+   }
 
+   Deposit(id:string){
+    if(id == '') return; 
+    this.reload = false; 
+    this.sysdata.setCustomer(id); 
+    this.sysdata.setTranscationType(AkibaType.Deposit);
+   
+    this.BuilderForm();
+    this.cdRef.detectChanges();
+    this.reload = true; 
+   }
 }

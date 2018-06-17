@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Micro_core.BusinessLayer;
 using Micro_core.DataLayer;
 using Micro_core.DataLayer.Attributes;
+using Micro_core.IBusinessLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -41,6 +43,10 @@ namespace Micro_core
                     Title = "Micro core", Version = "v1"
                 });
             });
+
+            services.AddSingleton<ILoanLayer, LoanLayer>();
+            services.AddSingleton<IAkibaLayer, AkibaLayer>();  
+            services.AddSingleton<IUserLayer, IApplicationUser>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

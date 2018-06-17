@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { User } from "../../models/user";
 import { UserService } from "./User.Service";
@@ -17,24 +17,27 @@ export class UserComponent {
   public users: User[] = [];
   questions: any;
   private user: User;
-  IsView: boolean;
-  error: boolean ; 
-  messeage: string;
+  IsView = false; 
+  error: boolean = false; 
+  messeage: string = '';
 
   searchterm$ = new Subject<string>();
 
   constructor(private sc: UserService,
-    private sysdata: SystemDataService) {
+    private sysdata: SystemDataService,
+    private cdRef: ChangeDetectorRef) {
 
     this.pulltable();
-    this.Builderform();
+    //this.Builderform();
     this.search();
 
   }
 
-  Builderform() {
-    this.questions = this.sc.getQuestions("").subscribe(result => {
+  Builderform(id = "") {
+    this.sc.getQuestions(id).subscribe(result => {
       this.questions = result as FormBase<any>;
+      this.cdRef.detectChanges();
+      this.isAdd();
     });
   }
 
@@ -42,6 +45,7 @@ export class UserComponent {
     this.sc.GetCustomer().subscribe(
       result => {
         this.users = result as User[];
+      
       }
     )
   }
@@ -68,6 +72,7 @@ export class UserComponent {
 
   isAdd() {
     this.IsView = !this.IsView;
+    //this.Builderform(""); 
   }
 
   search(){
@@ -75,5 +80,26 @@ export class UserComponent {
       .subscribe(result=> {
         this.users = result as User[];
       });
+  }
+  EditStaff(id:any){
+    this.IsView = false; 
+     this.Builderform(id); 
+     
+  }
+  AddNew(){
+    this.IsView = false;  
+    this.Builderform(""); 
+    
+  }
+
+  Account(id:any){
+
+  }
+
+  Delete(id:any){
+
+  }
+  CloseModel(){
+   this.IsView = false; 
   }
 }

@@ -14,7 +14,8 @@ import { Tree } from '@angular/router/src/utils/tree';
 
 @Injectable()
 export class InterestService {
-    public url: string;
+  
+    private url: string;
 
     constructor(private http: AppHttpService,
     ) {
@@ -59,7 +60,8 @@ export class InterestService {
             })
         }))}
 
-    GetInterestWith(id: string) {
+    
+        GetInterestWith(id: string) {
         return this.http.get(`${this.url}getinterest/${id}`);
     }
 
@@ -70,4 +72,50 @@ export class InterestService {
     SetInterest(value:any) {
         return this.http.post(`${this.url}setinterest`, value);
     }
+    GetLoanLimit(id:any){
+        return this.http.get(`${this.url}loanLimit/${id}`); 
+    }
+
+    GetLoanlimit(inte:Interest): FormBase<any>{
+            const value = inte;
+    
+            const isnot = value == null;
+            console.log(value);
+            let questions: QuestionBase<any>[] = [
+    
+                new Textbox({
+                    key: 'duration',
+                    label: 'Duration',
+                    type: 'number',
+                    value: !isnot ? value.duration : '',
+                    required: true,
+                    order: 1
+                }),
+                new Textbox({
+                    key: 'rate',
+                    label: 'Rate',
+                    type: 'number',
+                    value: !isnot ? value.rate : '',
+                    required: true,
+                    order: 2
+                }),new Textbox({
+                    key: 'limitAmount',
+                    label: 'Loan Limit Amount',
+                    type: 'number',
+                    value: !isnot ? inte.limitAmount : '',
+                    required: true,
+                    order: 3
+                })
+                
+            ];
+    
+            questions = questions.sort((a, b) => a.order - b.order);
+    
+            return new FormBase<any>({
+                Id: !isnot ? value.id : 0,
+                Name: "Loan Limit Details",
+                key: 'id',
+                Questions: questions
+            })
+      }
 }

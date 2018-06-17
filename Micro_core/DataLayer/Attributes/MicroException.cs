@@ -21,6 +21,11 @@ namespace Micro_core.DataLayer.Attributes
         {
             this.statusCode = statusCode;
         }
+         public MicroException(string message)
+            : base(message)
+        {
+            this.statusCode = HttpStatusCode.Ambiguous;
+        }
 
         public MicroException(HttpStatusCode statusCode)
         {
