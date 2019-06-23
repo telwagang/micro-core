@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Micro_core.DataLayer.Models.Emuns;
+using API.Enums;
 
 namespace Micro_core.Models
 {

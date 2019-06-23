@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Micro_core.DataLayer.Models;
 
-namespace Micro_core.IBusinessLayer
+
+namespace API.ControllersInterface
 {
     public interface IAkibaLayer
     {

@@ -1,6 +1,6 @@
-using Micro_core.DataLayer.Models.Management;
+using API.DataModels.Management;
 
-namespace Micro_core.IBusinessLayer
+namespace API.ControllersInterface
 {
     public interface IEmailLayer
     {

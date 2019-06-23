@@ -1,8 +1,8 @@
+using API.DataModels.reports;
 using System.Collections.Generic;
-using Micro_core.DataLayer.Models.reports;
-using Micro_core.Models;
 
-namespace Micro_core.IBusinessLayer
+
+namespace API.ControllersInterface
 {
     public interface IReport
     {

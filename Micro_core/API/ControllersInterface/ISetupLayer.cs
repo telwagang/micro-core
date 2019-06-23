@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Micro_core.DataLayer.Models;
-using Micro_core.DataLayer.Models.Management;
-using Micro_core.Models;
-using Micro_core.Models.Loan;
+using API.DataModels.Loan;
+using API.DataModels.Management;
 
-namespace Micro_core.IBusinessLayer
+
+namespace API.ControllersInterface
 {
     public interface ISetupLayer
     {

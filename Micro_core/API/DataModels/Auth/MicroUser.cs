@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using API.DataModels.Management;
 using API.Enums;
-using API.Interfaces;
-using Micro_core.DataLayer.Models.Emuns;
+using API.Interface;
 using Micro_core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.DataModels.Auth
 {
@@ -53,7 +50,7 @@ namespace API.DataModels.Auth
                 id = Id,
                 ApiKey = AccessToken,
                 Type = Type,
-                TypeId =  staff?.ID ?? 0,
+                TypeId =  staff?.id ?? 0,
                 CompanyId =  staff?.CompanyId ?? 0
             };
         }

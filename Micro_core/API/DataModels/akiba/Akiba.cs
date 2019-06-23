@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using API.Interfaces;
+using API.Interface;
 using Micro_core.Models.akiba;
 
 namespace API.DataModels.akiba

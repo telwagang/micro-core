@@ -1,20 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Micro_core.DataLayer;
-using Micro_core.DataLayer.Attributes;
-using Micro_core.DataLayer.Models;
-using Micro_core.DataLayer.Models.akiba;
-using Micro_core.DataLayer.Models.Emuns;
-using Micro_core.IBusinessLayer;
-using Micro_core.Models;
-using Micro_core.Models.akiba;
+using API.ControllersInterface;
+using API.DataModels;
+using API.DataModels.akiba;
+using API.Enums;
 
-namespace Micro_core.BusinessLayer
+namespace API.Controllers
 {
     public class AkibaLayer: IAkibaLayer
     {
-        private static readonly object locker = new object(); 
+        private static readonly object locker = new object();
+
+
+        public AkibaLayer()
+        {
+
+        }
+
         public void StartSavingAccount(akibaViewModel avm)
         {
 
@@ -111,7 +114,8 @@ namespace Micro_core.BusinessLayer
             }
         }
 
-        public List<AkibaMultipleViewModel> GetAkibaHistory(int companyId){
+        public List<AkibaMultipleViewModel> GetAkibaHistory(int companyId)
+        {
             if(companyId == 0) throw new MicroException("Company id not passed"); 
 
            var listofcontent = new List<AkibaMultipleViewModel>(); 

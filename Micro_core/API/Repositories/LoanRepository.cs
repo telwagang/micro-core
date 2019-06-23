@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DataModels.Loan;
 using API.Enums;
-using API.Interfaces;
+using API.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -68,7 +68,7 @@ namespace API.Repositories
         {
             var d = await GetLoanByCompany();
 
-            return await d.Where(x=> x.Status == MicroLoanStatus);
+            return d.Where(x=> x.Status != MicroLoanStatus.Done || x.Status != MicroLoanStatus.Active).ToList();
 
         }
 

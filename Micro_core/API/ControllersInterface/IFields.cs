@@ -1,9 +1,10 @@
-using System.Collections.Generic;
-using Micro_core.DataLayer.Models.Emuns;
-using Micro_core.DataLayer.Models.reports;
-using Micro_core.Models;
 
-namespace Micro_core.IBusinessLayer
+
+using API.DataModels.reports;
+using API.Enums;
+using System.Collections.Generic;
+
+namespace API.ControllersInterface
 {
     public interface IFields
     {

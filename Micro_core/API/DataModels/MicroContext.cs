@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.DataModels
 {
-    public class MicroContext : DbContext
+    internal class MicroContext : DbContext
     {
         public MicroContext()
         {

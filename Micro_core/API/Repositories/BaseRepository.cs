@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DataModels;
-using API.Interfaces;
+using API.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories

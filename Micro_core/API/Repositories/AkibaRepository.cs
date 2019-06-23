@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using API.DataModels.akiba;
 using API.Enums;
-using API.Interfaces;
+using API.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories

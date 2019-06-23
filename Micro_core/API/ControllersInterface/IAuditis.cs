@@ -1,6 +1,6 @@
 using Micro_core.DataLayer.Models.Emuns;
 
-namespace Micro_core.IBusinessLayer
+namespace API.ControllersInterface
 {
     public interface IAuditis
     {

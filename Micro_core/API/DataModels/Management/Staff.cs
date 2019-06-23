@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using API.Interfaces;
-using Micro_core.DataLayer;
-using Micro_core.DataLayer.Models.akiba;
-using Micro_core.DataLayer.Models.Management;
-using Micro_core.Models;
-using Micro_core.Models.akiba;
-using Micro_core.Models.Hisa;
-using Micro_core.Models.Loan;
-using Microsoft.AspNetCore.Http;
+using API.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.DataModels.Management
@@ -105,7 +97,7 @@ namespace API.DataModels.Management
         {
             using (var ctx = new MicroContext())
             {
-                return ctx.Staff.FirstOrDefault(x => x.ID == id & !x.Deleted);
+                return ctx.Staff.FirstOrDefault(x => x.Id == id & !x.Deleted);
             }
         }
 

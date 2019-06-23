@@ -23,10 +23,15 @@
     <Compile Remove="DataLayer\Models\reports\EntityPages.cs" />
     <Compile Remove="DataLayer\Models\reports\EntityType.cs" />
     <Compile Remove="DataLayer\Models\Base\DataModelHelper.cs" />
-    <Compile Remove="API\Attributes\MicroException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="API\bin\Debug\netcoreapp2.1\" />
+    <Folder Include="API\bin\Release\netcoreapp2.1\" />
+    <Folder Include="BusinessLayer\" />
     <Folder Include="DataLayer\Attributes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="API\API.csproj" />
   </ItemGroup>
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->
@@ -48,7 +53,7 @@
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

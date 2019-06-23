@@ -1,4 +1,4 @@
-namespace Micro_core.IBusinessLayer
+namespace API.ControllersInterface
 {
     public interface IVersion
     {

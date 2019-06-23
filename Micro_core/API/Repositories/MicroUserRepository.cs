@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using API.DataModels.Auth;
-using API.Interfaces;
+using API.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
