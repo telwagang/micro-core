@@ -26,7 +26,7 @@ export class UserService {
 
     return this.GetCustomerWith(id).pipe(map(
       result => {
-        const value = result as User;
+        const value = result.data as User;
         const isnot = value == null;
         console.log(result);
         let questions: QuestionBase<any>[] = [
@@ -114,7 +114,7 @@ export class UserService {
           })
         ];
 
-        questions = questions.sort((a, b) => a.order - b.order);
+        questions = questions.sort((a, b) => b.order - a.order);
 
         return new FormBase<any>({
           Id: !isnot ?

@@ -34,7 +34,8 @@ export class AkibaComponent implements OnInit {
   
   loadHistory(){
     this.as.getHistory().subscribe(x=>{
-      this.akibaHistory = x; 
+      console.log(x);
+      this.akibaHistory = x.data; 
     })
   }
 

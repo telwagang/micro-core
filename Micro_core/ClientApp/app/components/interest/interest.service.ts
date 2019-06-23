@@ -25,7 +25,7 @@ export class InterestService {
     getQuestions(id: number): Observable<FormBase<any>> {
 
         return this.GetInterestWith(id.toString()).pipe(map(result => {
-            const value = result as Interest;
+            const value = result.data as Interest;
 
             const isnot = value == null;
             console.log(value);

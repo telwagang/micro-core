@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="DataModels\" />
+    <Folder Include="Enums\" />
+    <Folder Include="General\" />
+    <Folder Include="DataModels\reports\" />
+    <Folder Include="DataModels\Management\" />
+    <Folder Include="DataModels\Loan\" />
+    <Folder Include="DataModels\akiba\" />
+    <Folder Include="DataModels\Hisa\" />
+    <Folder Include="DataModels\Auth\" />
+    <Folder Include="Attributes\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Core" Version="2.14.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />
+    <PackageReference Include="Ninject" Version="3.3.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DataModels\Loan\LoanApplicantion.cs" />
+    <Compile Remove="DataModels\Loan\Payment.cs" />
+    <Compile Remove="DataModels\akiba\Akiba.cs" />
+    <Compile Remove="DataModels\akiba\AkibaCT.cs" />
+    <Compile Remove="DataModels\akiba\AkibaDT.cs" />
+    <Compile Remove="DataModels\akiba\StartAkiba.cs" />
+    <Compile Remove="Attributes\MicroExceptionFilter.cs" />
+    <Compile Remove="DataModels\Loan\LoanDone.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\..\usr\local\share\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Micro core.csproj" />
+  </ItemGroup>
+</Project>

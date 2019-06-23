@@ -13,10 +13,13 @@ export class FormService {
 
     group[questions.key] = new FormControl(questions.Id || '');
 
-    questions.Questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
+      questions.Questions.forEach(question => 
+      {
+
+          group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
         : new FormControl(question.value || '');
-    });
+      });
+     
     return new FormGroup(group);
   }
   

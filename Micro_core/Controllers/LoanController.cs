@@ -21,60 +21,60 @@ namespace Micro_core.Controllers
             _loanLayer = loanlayer;
         }
 
-        [HttpGet("action/id")]
+        [HttpGet("[action]/{id}")]
         [Produces("application/json")]
-        public IActionResult GetPending(int id)
+        public MicroResponse GetPending(int id)
         {
 
             try
             {
                 var d = _loanLayer.GetPending(id);
 
-                return Ok(d);
+                return new MicroResponse(d);
             }
             catch (MicroException ex)
             {
-                return NotFound(ex.Message);
+                return new MicroResponse(ex.Message);
             }
             catch (System.Exception)
             {
-                return NotFound("something went wrong");
+                return new MicroResponse("something went wrong");
             }
         }
-        [HttpPost("action")]
-        public IActionResult SetLoan([FromBody] LoanApplication la)
+        [HttpPost("[action]")]
+        public MicroResponse SetLoan([FromBody] LoanApplication la)
         {
             try
             {
                 _loanLayer.NewLoanApplication(la);
 
-                return Ok();
+                return new MicroResponse();
             }
             catch (MicroException ex)
             {
 
-                return NotFound(ex.Message);
+                return new MicroResponse(ex.Message);
             }
             catch (Exception)
             {
 
-                return NotFound("Something went wrong");
+                return new MicroResponse("Something went wrong");
             }
         }
 
-        [HttpPost("action")]
-        public IActionResult PayLoan([FromBody] paymentViewModel pvm){
+        [HttpPost("[action]")]
+        public MicroResponse PayLoan([FromBody] paymentViewModel pvm){
             try
             {
                 _loanLayer.PayLoan(pvm); 
-                return Ok();
+                return new MicroResponse();
             }
             catch(MicroException ex){
-                return NotFound(ex.Message);
+                return new MicroResponse(ex.Message);
             }
             catch (Exception)
             {
-                return NotFound("something went wrong");
+                return new MicroResponse("something went wrong");
             }
         }
     }

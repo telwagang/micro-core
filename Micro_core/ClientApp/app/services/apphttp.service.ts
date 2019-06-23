@@ -1,3 +1,4 @@
+import { MicroResponse } from './../models/micro-response';
 import { Injectable,Inject } from '@angular/core';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +19,7 @@ export class AppHttpService {
     }
 
     get(url:string){
-        return this.http.get(this.url+url, this.httpOptions)
+        return this.http.get<MicroResponse>(this.url+url, this.httpOptions)
       .pipe(tap(h => {
         const outcome = h ? `fetched` : `did not find`;
         this.log(`${outcome}`);
@@ -26,21 +27,25 @@ export class AppHttpService {
       catchError(this.handleError<any>(`get ${url}`)));
     }
     post(url:string, value:any){
-        return this.http.post(this.url +url, value, this.httpOptions)
-      .pipe(catchError(this.handleError<any>(`post ${url}, values ${value}`)))
+        return this.http.post<MicroResponse>(this.url +url, value, this.httpOptions)
+      .pipe(
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+          this.log(`${outcome}`);
+        }),catchError(this.handleError<any>(`post ${url}, values ${value}`)))
       ;
     }
-    private handleError<T> (operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
+    private handleError<MicroResponse> (operation = 'operation', result?: MicroResponse) {
+        return (error: any): Observable<MicroResponse> => {
      
           // TODO: send the error to remote logging infrastructure
            // log to console instead
      
           // TODO: better job of transforming error for user consumption
-          this.log(`${operation} failed: ${error.error}`);
-     
+          this.log(`${operation} failed: ${error.Message}`);
+          this.log(error); 
           // Let the app keep running by returning an empty result.
-          return of(error.error as T);
+          return of(error);
         };
       }
      

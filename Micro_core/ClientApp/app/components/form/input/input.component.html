@@ -5,11 +5,13 @@
 
         <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type" class="form-control">
 
-        <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key" class="form-control">
-        <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+        <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key" class="form-control" >
+        <option *ngFor="let opt of question.options" [value]="opt.key" selected="{{opt.selected}}">{{opt.value}}</option>
       </select>
 
-    </div>
+        <select [id]="question.key" *ngSwitchCase="'mutlipleSelect'" [formControlName]="question.key" class="form-control chosen-select" multiple>
+            <option *ngFor="let opt of question.options" [value]="opt.key" selected="{{opt.selected}}">{{opt.value}}</option>
+        </select></div>
 
     <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
 </div>

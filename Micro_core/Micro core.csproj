@@ -19,6 +19,15 @@
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
     <Content Remove="ClientApp\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DataLayer\Models\reports\EntityPages.cs" />
+    <Compile Remove="DataLayer\Models\reports\EntityType.cs" />
+    <Compile Remove="DataLayer\Models\Base\DataModelHelper.cs" />
+    <Compile Remove="API\Attributes\MicroException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataLayer\Attributes\" />
+  </ItemGroup>
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
@@ -39,7 +48,7 @@
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

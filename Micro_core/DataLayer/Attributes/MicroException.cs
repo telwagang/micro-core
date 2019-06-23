@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using API.General;
 
 namespace Micro_core.DataLayer.Attributes
 {
@@ -35,6 +36,10 @@ namespace Micro_core.DataLayer.Attributes
         public HttpStatusCode StatusCode
         {
             get { return this.statusCode; }
+        }
+
+        public MicroResponse Response(){
+          return new MicroResponse(Message, statusCode); 
         }
     }
 }

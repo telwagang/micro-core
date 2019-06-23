@@ -7,11 +7,4 @@ namespace Micro_core.DataLayer.Models.Base
     {
         
     }
-
-    public static class ClassExtensions{
-
-        public static DateTime LastDayOfMonth(this DateTime date){
-            return date.AddMonths(1).AddDays(-1); 
-        }
-    }
 }

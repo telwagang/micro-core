@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DataModels;
+using API.General;
 using AutoMapper;
 using Micro_core.BusinessLayer;
 using Micro_core.DataLayer;
@@ -9,6 +11,7 @@ using Micro_core.DataLayer.Attributes;
 using Micro_core.IBusinessLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +38,10 @@ namespace Micro_core
             services.AddMvc(
                 Configuration=>{
                     Configuration.Filters.Add(typeof(MicroExceptionFilter));
+                    Configuration.OutputFormatters.RemoveType<TextOutputFormatter>();
+                    Configuration.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+                    Configuration.RespectBrowserAcceptHeader = true;
+                   
                 }
             );
 
@@ -46,7 +53,17 @@ namespace Micro_core
 
             services.AddSingleton<ILoanLayer, LoanLayer>();
             services.AddSingleton<IAkibaLayer, AkibaLayer>();  
-            services.AddSingleton<IUserLayer, IApplicationUser>(); 
+            services.AddSingleton<IUserLayer, IApplicationUser>();
+            services.AddSingleton<IEmailLayer, EmailLayer>();
+            services.AddSingleton<ISetupLayer, SetUpLayer>();
+            services.AddSingleton<IFields, FieldLayer>();
+            services.AddSingleton<IReport, ReportLayer>();
+            services.AddSingleton<IBaseLayer, BaseLayer>();  
+            services.AddSingleton<IAuditis, Audits >();
+            services.AddSingleton<IPage, PageLayer>();
+
+            Sys.init(services); 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +79,7 @@ namespace Micro_core
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
@@ -76,11 +93,12 @@ namespace Micro_core
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=home}/{action=Index}/{id?}");
 
-                routes.MapSpaFallbackRoute(
+                    routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
+
             });
         }
     }

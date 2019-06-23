@@ -1,0 +1,12 @@
+.icon-user{
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    font-size: 50pt;
+    padding: 10px; 
+}
+
+.account-details{
+    padding: 10px 0; 
+    background-color: aqua;
+}

@@ -35,10 +35,10 @@ export class SystemDataService {
         this.set("Token", value); 
     }
     public setTempeId(id:any){
-        this.set("tempId", id); 
+        this.set("tempId", JSON.stringify(id)); 
     }
-    public getTempeId(){
-        return this.get("tempId"); 
+    public getTempeId<T>() {
+        return JSON.parse(this.get("tempId")) as T; 
     }
     public getToken(){
         return this.get("Token"); 

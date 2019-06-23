@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Web;
+using Micro_core.DataLayer.Models.Emuns;
+using Micro_core.DataLayer.Models.reports;
 
 namespace Micro_core.Models
 {
@@ -126,5 +129,44 @@ namespace Micro_core.Models
         public decimal Amount {get; set;}
         public decimal RepayAmount {get; set;}
         public DateTime date {get; set;}
+    }
+
+    public class FieldView{
+        public Fields Field { get; set; }
+        public FieldValueView values {get;set; }
+    }
+
+    public class FieldValueView{
+        public int FieldId {get; set;}
+        public int ValueId { get; set; }
+        public string value {get; set; }
+        public MicroDataType dataType { get; set; }
+    }
+
+    public class MicroResponse {
+        public HttpStatusCode Status {get; set; }
+        public string Message { get; set; }
+        public object Data {get; set; } 
+ 
+        public MicroResponse(){
+            Data = null;
+            Status = HttpStatusCode.OK;
+            Message = "okay";
+        }
+        public MicroResponse(object data){
+          Data = data;
+          Status = HttpStatusCode.OK;
+          Message = string.Empty; 
+        }
+        public MicroResponse(object data, string msg){
+          Data = data;
+          Status = HttpStatusCode.OK;
+          Message = msg; 
+        }
+        public MicroResponse(string msg, HttpStatusCode status = HttpStatusCode.NotFound){
+          Data = null;
+          Status = status;
+          Message = msg;  
+        }
     }
 }

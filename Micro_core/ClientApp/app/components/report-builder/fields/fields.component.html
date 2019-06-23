@@ -1,0 +1,61 @@
+
+<div class="row">
+  <div class=col-md-12>
+      <div *ngIf="entitytype" class="alert alert-success">
+        <div class="row">
+         <div class="col-sm-2"> <strong>Id: {{entitytype.id}}</strong></div>
+          <div class="col-sm-6"><strong>Entity Type Name: {{entitytype.name}}</strong></div>
+          <div class="col-sm-4"><strong>Fields: {{entitytype.fields.length}}</strong> </div> 
+      </div>
+    </div>
+  </div>
+    <div class="col-md-6">
+            <ng-container *ngIf="IsView">
+                <app-form *ngIf="IsView" [questions]="fieldQuestions" (payLoad)="saveFields($event)"></app-form>
+            </ng-container>
+          </div>
+<div class="col-md-10">
+<div class="table-responsive">
+  <table class="table table-hover">
+      <!-- *ngIf="!IsView"> -->
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>key</th>
+              <th>Display Name</th>
+              <th>Data Type</th>
+              <th>Required</th>
+              <th>System</th>
+              <th>Order</th>
+              <td>Edit</td>
+              <th>Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let et of fields">
+              <td> #{{et.id}}</td>
+              <td>{{et.key}}</td>
+              <td>{{et.displayName}}</td>
+              <td>{{et.dataType | dataType}}</td>
+              <td>
+                  <span [ngClass]="{'glyphicon':true,'glyphicon-remove-sign':!et.required,
+                 'glyphicon-ok-sign':et.required}"></span>
+              </td>
+              <td>
+                  <span [ngClass]="{'glyphicon':true,'glyphicon-remove-sign':!et.system,
+                 'glyphicon-ok-sign':et.system}"></span>
+              </td>
+              <td>{{et.order}}</td>
+              <td>
+                  <a class="btn btn-info btn-xs" (click)="Edit(et.id)" role="button">Account</a>
+              </td>
+              <td>
+                <a class="btn btn-info btn-xs" (click)="Delete(et.id)" role="button">Delete</a>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+</div>
+
+</div>

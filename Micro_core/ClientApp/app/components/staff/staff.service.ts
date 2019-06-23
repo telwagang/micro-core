@@ -23,7 +23,7 @@ export class StaffService {
     getQuestions(id: number): Observable<FormBase<any>> {
 
         return this.GetStaffWith(id.toString()).pipe(map(result => {
-            const value = result as Staff;
+            const value = result.data as Staff;
 
             const isnot = value == null;
             console.log(value);

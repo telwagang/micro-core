@@ -32,9 +32,9 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.deleteduser = false;
     console.log(this.model);
-    this.ds.signInWithEmailAndPassword(this.model).subscribe
-    (user=>{
-      var activeUser = user as ActiveUser; 
+    this.ds.signInWithEmailAndPassword(this.model)
+    .subscribe(user=>{
+      var activeUser = user.data as ActiveUser; 
     if(activeUser != null)
     {
       this.getuserdetails(activeUser)

@@ -20,5 +20,6 @@ namespace Micro_core.Controllers
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             return View();
         }
+        
     }
 }

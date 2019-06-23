@@ -17,27 +17,27 @@ namespace Micro_core.Controllers
 
         [HttpGet("[action]/{id}")]
         [Produces("application/json")]
-         public IActionResult GetCustomers(string id){
+         public MicroResponse GetCustomers(string id){
              
-             return Ok(Customer.GetById(id));
+             return new MicroResponse(Customer.GetById(id));
          }
 
         [HttpPost("[action]")]
-        public IActionResult SetCustomer([FromBody] Customer customer)
+        public MicroResponse SetCustomer([FromBody] Customer customer)
         {
             if(customer == null){
-                return BadRequest();
+                return new MicroResponse("customer not found");
             } 
             customer.save();
 
-            return Ok(customer);
+            return new MicroResponse(customer);
         }
 
         [HttpGet("[action]/{name}")]
         [Produces("application/json")]
-         public IActionResult SearchCustomer(string name){
+         public MicroResponse SearchCustomer(string name){
              
-             return Ok(Customer.GetByName(name));
+             return new MicroResponse(Customer.GetByName(name));
          }
         
 

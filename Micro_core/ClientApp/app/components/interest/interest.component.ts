@@ -71,8 +71,10 @@ refreshTable(){
 
   }
   SaveLoanLimit(value:any){
-    let lm = this.sysdata.getTempeId() as Interest; 
+    let lm = this.sysdata.getTempeId<Interest>() as Interest; 
     var staff = JSON.parse(value) as Interest;
+    console.log(lm);
+    console.log(staff);
     lm.limitAmount = staff.limitAmount;
 
    this.ss.SetInterest(JSON.stringify(lm))

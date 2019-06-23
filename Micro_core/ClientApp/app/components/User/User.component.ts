@@ -5,6 +5,7 @@ import { UserService } from "./User.Service";
 import { SystemDataService } from '../../services/systemData.service';
 import { FormBase } from '../form/formmodel/FormBase';
 import { Subject } from 'rxjs/Subject';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-User',
@@ -25,7 +26,8 @@ export class UserComponent {
 
   constructor(private sc: UserService,
     private sysdata: SystemDataService,
-    private cdRef: ChangeDetectorRef) {
+    private cdRef: ChangeDetectorRef, 
+  private route: Router) {
 
     this.pulltable();
     //this.Builderform();
@@ -93,7 +95,8 @@ export class UserComponent {
   }
 
   Account(id:any){
-
+     this.sysdata.setCustomer(id);
+     this.route.navigate(['user/account']);  
   }
 
   Delete(id:any){

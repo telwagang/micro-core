@@ -38,7 +38,7 @@ export class StaffComponent implements OnInit {
 refreshTable(){
   this.ss.GetStaff()
       .subscribe(result => { 
-        this.staffs = result as Staff[];
+        this.staffs = result.data as Staff[];
         console.log(result); 
       });
 }

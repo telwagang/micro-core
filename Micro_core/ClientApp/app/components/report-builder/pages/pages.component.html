@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-6">
+          <ng-container *ngIf="IsView">
+              <app-form *ngIf="IsView" [questions]="pagesQuestions" (payLoad)="savePage($event)"></app-form>
+          </ng-container>
+        </div>
+<div class="col-md-10">
+<div class="table-responsive">
+<table class="table table-hover">
+    <!-- *ngIf="!IsView"> -->
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Arithmetic Type</th>
+            <th>Active</th>
+            <th>Linked Entity Types</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let et of pages">
+            <td> #{{et.id}} 
+                {{ et.name }}</td>
+                <td>{{et.arithmeticType }}</td>
+                <td>{{et.type}}</td>
+            <td>
+                <a [ngClass]="{'glyphicon':true,'glyphicon-remove-sign':!et.active,
+               'glyphicon-ok-sign':et.active}" data-toggle="modal" data-target="#addUser" (click)="Status(et.id)" role="button"></a>
+            </td>
+            <td>
+                <a class="btn btn-info btn-xs" data-toggle="modal" data-target="#addEntity" (click)="buildModel(et.id)" role="button">Add ( {{et.entityTypes.length}} )</a>
+            </td>
+            <td>
+              <a class="btn btn-info btn-xs" (click)="Delete(et.id)" role="button">Delete</a>
+          </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
+
+<div class="modal" id="addEntity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <ng-container *ngIf="IsView">
+                <div class="modal-body">
+                    <app-form *ngIf="pagesModelQuestions" [questions]="pagesModelQuestions" (payLoad)="savePageEntity($event)"></app-form>
+                </div>
+            </ng-container>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" >Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

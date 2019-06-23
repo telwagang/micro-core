@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using API.DataModels.Management;
 using Micro_core.DataLayer.Models;
 using Micro_core.DataLayer.Models.Management;
+using Micro_core.IBusinessLayer;
 using Micro_core.Models;
 using Micro_core.Models.Loan;
 using Microsoft.AspNetCore.Mvc;
@@ -11,93 +13,84 @@ namespace Micro_core.Controllers
     [Produces("application/json")]
     public class SetUpController : Controller
     {
+        private readonly ISetupLayer _setupLayer; 
+        public SetUpController(ISetupLayer setupLayer)
+        {
+            _setupLayer = setupLayer; 
+        }
+
         [HttpPost("[action]")]
-        public IActionResult SetCompany([FromBody] Company company)
+        public MicroResponse SetCompany([FromBody] Company company)
         {
             if (company == null)
             {
-                return BadRequest(ModelState.ValidationState);
+                return new MicroResponse(ModelState.ValidationState);
             }
-            company.save();
+            _setupLayer.SetCompany(company); 
 
-            return Ok(company);
+            return new MicroResponse(company);
         }
 
         [HttpGet("[action]")]
         [Produces("application/json")]
-        public IActionResult GetCompany()
+        public MicroResponse GetCompany()
         {
-            return Ok(Company.GetCompany());
+            return new MicroResponse(_setupLayer.GetCompany());
         }
 
         [HttpGet("[action]")]
         [Produces("application/json")]
-        public IActionResult GetStaff()
+        public MicroResponse GetStaff()
         {
-            return Ok(Staff.All());
+            return new MicroResponse(_setupLayer.GetStaff());
         }
 
         [HttpGet("[action]/{id}")]
         [Produces("application/json")]
-        public IActionResult GetStaff(int id)
+        public MicroResponse GetStaff(int id)
         {
 
-            return Ok(Staff.GetById(id));
+            return new MicroResponse(_setupLayer.GetStaff(id));
         }
 
         [HttpPost("[action]")]
-        public IActionResult SetStaff([FromBody] Staff staff)
+        public MicroResponse SetStaff([FromBody] Staff staff)
         {
             if (staff == null)
             {
-                return BadRequest();
+                return new MicroResponse();
             }
 
-            staff.save();
+            _setupLayer.SetStaff(staff); 
 
-            MicroEmail.SendToNewUserSignUp(HttpContext, staff.ID);
-
-            return Ok(staff);
+            return new MicroResponse(staff);
         }
 
         [HttpGet("[action]")]
         [Produces("application/json")]
-        public IActionResult GetInterest()
+        public MicroResponse GetInterest()
         {
-            return Ok(Interest.All());
+            return new MicroResponse(_setupLayer.GetInterest());
         }
 
         [HttpGet("[action]/{id}")]
         [Produces("application/json")]
-        public IActionResult GetInterest(int id)
+        public MicroResponse GetInterest(int id)
         {
 
-            return Ok(Interest.GetById(id));
+            return new MicroResponse(_setupLayer.GetInterest(id));
         }
 
         [HttpPost("[action]")]
-        public IActionResult SetInterest([FromBody] interestViewModel inter)
+        public MicroResponse SetInterest([FromBody] interestViewModel inter)
         {
             if (inter == null)
             {
-                return BadRequest();
+                return new MicroResponse();
             }
-            inter.save();
+            _setupLayer.SetInterest(inter); 
 
-            if (inter.loanLimitId != 0)
-            {
-                var lm = LoanLimit.GetById(inter.loanLimitId) ??
-                new LoanLimit
-                {
-                    InterestId = inter.ID
-                };
-
-                lm.LimitAmount = inter.LimitAmount;
-
-                inter.addLoanLimit(lm);
-            }
-
-            return Ok(inter);
+            return new MicroResponse(inter);
         }
 
     }

@@ -61,6 +61,6 @@ export class AkibaService {
 
   saveAkiba(acount:Akiba){
 
-    return this.http.post(`${this.url}/SetAkiba`, acount); 
+    return this.http.post(`${this.url}SetAkiba`, acount); 
   }
 }

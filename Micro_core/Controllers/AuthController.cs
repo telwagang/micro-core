@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Micro_core.BusinessLayer;
 using Micro_core.DataLayer.Models.Auth;
@@ -16,61 +17,61 @@ namespace Micro_core.Controllers
     public class AuthController : Controller
     {
         [HttpPost("[action]")]
-        public IActionResult Login([FromBody] LoginViewModel user)
+        public MicroResponse Login([FromBody] LoginViewModel user)
         {
 
             try
             {
                 var _user = new IApplicationUser().signInWithEmailAndPassword(user);
-                if (_user == null) return NotFound();
+                if (_user == null) return new MicroResponse("User not found");
                 
                
-                return Ok(_user.ReturnToClient());
+                return new MicroResponse(_user.ReturnToClient());
             }
             catch (Exception e)
             {
 
-                return NotFound(e.Message);
+                return new MicroResponse(e.Message);
             }
 
         }
         [HttpPost("[action]")]
-        public IActionResult SignUp([FromBody] LoginViewModel user)
+        public MicroResponse SignUp([FromBody] LoginViewModel user)
         {
 
             try
             {
-                var accestoken = new IApplicationUser().singUpWithEmailAndPassword(user);
+                var accestnew = new IApplicationUser().singUpWithEmailAndPassword(user);
                 
-                return Ok(accestoken);
+                return new MicroResponse(accestnew,HttpStatusCode.OK);
             }
             catch (Exception e)
             {
 
-                return BadRequest(e.Message);
+                return new MicroResponse(e.Message);
             }
 
         }
         [HttpGet("[action]/{key}")]
-        public IActionResult VerifyKey(string key)
+        public MicroResponse VerifyKey(string key)
         {
             if(string.IsNullOrEmpty(key)){
-                return BadRequest();
+                return new MicroResponse("key not found");
             }
 
             if(Staff.GetByApiKey(key) == null){
-                return BadRequest();
+                return new MicroResponse("key not found"); 
             }
 
-            return Ok();
+            return new MicroResponse();
         }
 
         [HttpGet("[action]/{token}")]
-        public IActionResult VerifyToken(string token) {
+        public MicroResponse VerifyToken(string token) {
 
-         if(string.IsNullOrEmpty(token)) return Ok(false); 
+         if(string.IsNullOrEmpty(token)) return new MicroResponse(false); 
           
-          return Ok(MicroUser.CheckByToken(token)); 
+          return new MicroResponse(MicroUser.CheckByToken(token)); 
 
          }
     }
